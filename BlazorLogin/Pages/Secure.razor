@@ -1,0 +1,21 @@
+@page "/secure"
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Components.Authorization
+
+@using Microsoft.AspNetCore.Authorization
+
+<h3>Secure Page</h3>
+<p>If you can see this, you are authenticated with Entra ID.</p>
+
+<CascadingAuthenticationState>
+<AuthorizeView>
+    <Authorized>
+        <a href="authentication/profile" class="nav-link">Hello, @context.User.Identity.Name!</a>
+        <a href="authentication/logout" class="nav-link">Log out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login" class="nav-link">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+</CascadingAuthenticationState>
