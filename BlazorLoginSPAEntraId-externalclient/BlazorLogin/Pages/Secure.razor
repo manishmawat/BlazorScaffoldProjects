@@ -1,0 +1,30 @@
+@page "/secure"
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Components.Authorization
+
+@using Microsoft.AspNetCore.Authorization
+
+<h3>Secure Page</h3>
+<p>If you can see this, you are authenticated with Entra ID.</p>
+
+<CascadingAuthenticationState>
+<AuthorizeView>
+    <Authorized>
+        <a href="authentication/profile" class="nav-link">Hello, @context.User.Identity.Name!</a>
+        <a href="authentication/roles" class="nav-link">Your Roles: @context.User.FindFirst("roles")?.Value</a>
+        @foreach (var role in context.User.FindAll("roles"))
+        {
+            <span>@role.Value</span>
+            }
+        <a href="authentication/permissions" class="nav-link">Your Permissions: @context.User.FindFirst("permissions")?.Value</a>
+        <a href="authentication/groups" class="nav-link">Your Groups: @context.User.FindFirst("groups")?.Value</a>
+        <a href="authentication/claims" class="nav-link">Your Claims: @context.User.FindFirst("claims")?.Value</a>
+        <a href="authentication/extra" class="nav-link">Your Extra Claims: @context.User.FindFirst("extra")?.Value</a>
+        <a href="authentication/logout" class="nav-link">Log out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login" class="nav-link">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+</CascadingAuthenticationState>
